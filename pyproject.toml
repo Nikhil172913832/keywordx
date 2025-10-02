@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "keywordx"
-version = "1.0.1"
+version = "1.0.2"
 description = "A Python library for extracting and matching keywords with semantic and entity-based boosting."
 authors = [
     { name = "Madhusudan", email = "dmpathani@gmail.com"},
