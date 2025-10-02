@@ -26,6 +26,13 @@ Install from PyPI:
 pip install keywordx
 ```
 
+Additionally, for better results, install the en_core_web_md spaCy model:
+
+```
+python -m spacy download en_core_web_md
+```
+If the en_core_web_md model is not available, the library will automatically fall back to the smaller en_core_web_sm model, but this may result in reduced accuracy.
+
 Or install from source:
 
 ```
@@ -111,5 +118,5 @@ Contributions are welcome. For significant changes, please open an issue first t
 
 # License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/keikurono7/keywordx/blob/main/LICENSE.txt) file for details.
 ---

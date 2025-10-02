@@ -1,7 +1,21 @@
+import spacy
+import subprocess
 from .chunker import chunk_phrases
 from .embeddings import embed_texts, whiten
 from .matcher import score_matches
 from .ner import extract_structured
+
+def load_spacy_model(model_name="en_core_web_md"):
+    try:
+        return spacy.load(model_name)
+    except OSError:
+        print(f"Warning: Model '{model_name}' not found. Falling back to 'en_core_web_sm'.")
+        print("For better results, install the 'en_core_web_md' model using:")
+        print("    python -m spacy download en_core_web_md")
+        subprocess.run(
+            ["python", "-m", "spacy", "download", "en_core_web_sm"], check=True
+        )
+        return spacy.load("en_core_web_sm")
 
 class KeywordExtractor:
     def __init__(self, baseline_text="is the a"):
@@ -9,8 +23,7 @@ class KeywordExtractor:
         self._load_model()
 
     def _load_model(self):
-        import spacy
-        self.model = spacy.load("en_core_web_md")
+        self.model = load_spacy_model("en_core_web_md")
 
     def extract(self, text, keywords, idf_vectorizer=None, idf_map=None, min_score=0.3):
         phrases = chunk_phrases(text)
