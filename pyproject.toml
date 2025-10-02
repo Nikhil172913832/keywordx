@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "keywordx"
+version = "1.0.0"
+description = "A Python library for extracting and matching keywords with semantic and entity-based boosting."
+authors = [
+    { name = "Madhusudan", email = "dmpathani@gmail.com"},
+    { name = "Saniya Naaz", email = "saniyanaaz2k4@gmail.com"},
+    { name = "Dr. Nandeeswar S B", email = "hodcse.aiml@amceducation.in" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["keyword extraction", "NLP", "semantic matching"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "spacy>=3.6",
+    "numpy>=1.19.5"
+]
+
+[project.urls]
+Homepage = "https://github.com/keikurono7/keywordx"
+Documentation = "https://github.com/keikurono7/keywordx#readme"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

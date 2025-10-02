@@ -1,0 +1,6 @@
+# NLP & embeddings
+spacy>=3.6
+
+# Dev / testing
+pytest>=8.2
+pytest-cov>=4.1
