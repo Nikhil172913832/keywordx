@@ -26,12 +26,16 @@ Install from PyPI:
 pip install keywordx
 ```
 
-Additionally, for better results, install the en_core_web_md spaCy model:
+The en_core_web_md spaCy model is required for the library to function. Install it using the following command:
 
 ```
 python -m spacy download en_core_web_md
 ```
-If the en_core_web_md model is not available, the library will automatically fall back to the smaller en_core_web_sm model, but this may result in reduced accuracy.
+If the en_core_web_md model is not available, the library will attempt to fall back to the smaller en_core_web_sm model. However, this may result in reduced accuracy. You can install the fallback model using:
+
+```
+python -m spacy download en_core_web_sm
+```
 
 Or install from source:
 
