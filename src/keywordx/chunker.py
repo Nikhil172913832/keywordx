@@ -1,6 +1,7 @@
+from .utils import load_spacy_model
+
 def chunk_phrases(text):
-    import spacy
-    nlp = spacy.load("en_core_web_md")
+    nlp = load_spacy_model("en_core_web_md")
     doc = nlp(text)
     phrases = []
 

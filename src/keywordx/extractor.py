@@ -1,24 +1,8 @@
-import spacy
 from .chunker import chunk_phrases
 from .embeddings import embed_texts, whiten
 from .matcher import score_matches
 from .ner import extract_structured
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-def load_spacy_model(model_name="en_core_web_md"):
-    try:
-        return spacy.load(model_name)
-    except OSError:
-        logger.warning(f"Model '{model_name}' not found. Falling back to 'en_core_web_sm'.")
-        try:
-            return spacy.load("en_core_web_sm")
-        except OSError:
-            logger.warning("Could not load 'en_core_web_sm'. Using spaCy's built-in blank English model.")
-            return spacy.blank("en")
-
+from .utils import load_spacy_model
 
 class KeywordExtractor:
     def __init__(self, baseline_text="is the a"):
