@@ -79,6 +79,9 @@ The result will include extracted entities and semantic matches with scores:
   ]
 }
 ```
+
+or you can try it out at : [hugging face/keywordx](https://huggingface.co/spaces/KeiKurono/keywordx)
+
 # API Reference
 
 - KeywordExtractor() <br>
