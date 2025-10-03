@@ -7,7 +7,6 @@ __pycache__/
 *.sqlite3
 *.env
 *.egg-info/
-dist/
 build/
 .keywordx
 .pytest_cache/
