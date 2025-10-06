@@ -4,13 +4,13 @@ from .matcher import score_matches
 from .ner import extract_structured
 from .utils import load_spacy_model
 from collections.abc import Mapping
+from typing import Optional
 from numbers import Real
 
-
 class KeywordExtractor:
-    VALID_ENTITY_TYPES = {"DATE", "TIME", "MONEY", "CARDINAL", "LOC", "GPE"}
+    VALID_ENTITY_TYPES = {"DATE", "TIME", "MONEY", "CARDINAL", "LOC", "GPE", "PARSED_DATE"}
 
-    def __init__(self, baseline_text="is the a", entity_weights: Mapping | None = None):
+    def __init__(self, baseline_text="is the a", entity_weights: Optional[Mapping] = None):
         """
         Initialize KeywordExtractor with optional entity boost weights.
         Args:
@@ -49,6 +49,7 @@ class KeywordExtractor:
         Extracts and scores semantic + entity-based keyword matches.
         Combines both semantic similarity and NER-based weighting.
         """
+        keywords_lut = {k.lower(): k for k in keywords}
         phrases = chunk_phrases(text)
         cand_embs = embed_texts(phrases, self.model)
         cand_embs = whiten(cand_embs)
@@ -76,6 +77,7 @@ class KeywordExtractor:
 
         entity_map = {
             "DATE": "date",
+            "PARSED_DATE": "date",
             "TIME": "time",
             "MONEY": "money",
             "CARDINAL": "number",
@@ -86,19 +88,21 @@ class KeywordExtractor:
         # Handle entity matches separately
         entity_matches = {}
         for ent in ents:
-            ent_type = ent["type"]
+            ent_type = ent.get("type") if isinstance(ent, dict) else None
             mapped_keyword = entity_map.get(ent_type)
 
-            if not mapped_keyword or mapped_keyword not in keywords:
+            if not mapped_keyword or mapped_keyword not in keywords_lut:
                 continue
+
+            original_kw = keywords_lut[mapped_keyword]
 
             boost = self.entity_weights.get(ent_type, 1.0)
             boost = min(boost, 2.0)  # Cap boost at 2.0
             base_score = 0.6  # Base score for entity matches
-            
-            entity_matches[mapped_keyword] = {
-                "keyword": mapped_keyword,
-                "match": ent["text"],
+
+            entity_matches[original_kw] = {
+                "keyword": original_kw,
+                "match": ent.get("text") if isinstance(ent, dict) else None,
                 "score": base_score * boost
             }
 
@@ -107,7 +111,7 @@ class KeywordExtractor:
             if kw in final_results:
                 semantic_score = final_results[kw]["score"]
                 entity_score = entity_match["score"]
-                
+
                 if entity_score > semantic_score:
                     final_results[kw] = entity_match
             else:
