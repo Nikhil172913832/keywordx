@@ -5,10 +5,11 @@ from .ner import extract_structured
 from .utils import load_spacy_model
 from collections.abc import Mapping
 from numbers import Real
+from typing import Optional
 
 
 class KeywordExtractor:
-    def __init__(self, baseline_text="is the a", entity_weights: Mapping | None = None):
+    def __init__(self, baseline_text="is the a", entity_weights: Optional[Mapping] = None):
         """
         Args:
             baseline_text (str): Text used for embedding normalization.
