@@ -80,8 +80,8 @@ class KeywordExtractor:
             "TIME": "time",
             "MONEY": "money",
             "CARDINAL": "number",
-            "GPE": "place",
-            "LOC": "place"
+            "GPE": "location",
+            "LOC": "location"
         }
 
         default_entity_map = {label: label.lower() for label in self.VALID_ENTITY_TYPES}
