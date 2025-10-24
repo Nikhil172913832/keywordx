@@ -111,17 +111,21 @@ Contributions are welcome. For significant changes, please open an issue first t
 
 - Madhusudan
     - Email: dmpathani@gmail.com
-    - GitHub: [keikurono7](https://github.com/keikurono7)
+    - GitHub: [Madhusudan](https://github.com/keikurono7)
     - Role: Code implementation
 
 - Saniya Naaz
     - Email: saniyanaaz2k4@gmail.com
-    - GitHub: [Saniyanaaz11](https://github.com/Saniyanaaz11)
+    - GitHub: [Saniya Naaz](https://github.com/Saniyanaaz11)
     - Role: Research work
 
 - Dr. Nandeeswar S B
     - Email: hodcse.aiml@amceducation.in
     - Role: Concept and idea generation
+
+- Pratham Tomar
+    - Github: [Pratham Tomar](https://github.com/prathamtomar99)
+    - Role: Upgrading model implementation
 
 # License
 
