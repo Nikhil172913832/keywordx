@@ -18,6 +18,68 @@ Perfect for NLP pipelines, chatbots, search systems, and event extraction.
 
 ---
 
+##  Working Mechanism
+
+KeywordX processes text in multiple logical stages to extract and score contextually relevant keywords:
+
+1. **Input**  
+   The user provides raw text and a list of target keywords to search for.
+
+2. **Text Chunking**  
+   Candidate phrases are extracted using **noun chunks** and important **lemmas** via the `chunk_phrases` method.  
+   These chunks represent potential keyword matches.
+
+3. **Embeddings Generation**  
+   Candidate phrases, target keywords, and a baseline phrase are converted into **vector embeddings** using the **spaCy model** (`en_core_web_md`).  
+   The helper functions `embed_texts` and `whiten` handle embedding and normalization.
+
+4. **Semantic Scoring**  
+   Cosine similarity is computed between each keyword embedding and all candidate phrase embeddings.  
+   Optional **IDF weighting** refines the relevance score for each match (`score_matches`).
+
+5. **Semantic Selection**  
+   For each keyword, the **highest-scoring phrase** is selected if it surpasses the configurable `min_score` threshold (default = 0.3).  
+   This logic is implemented in `KeywordExtractor.extract`.
+
+6. **Named Entity Recognition (NER)**  
+   Named entities (like DATE, TIME, GPE, etc.) are extracted using **spaCy’s NER** and structured date parsing (`extract_structured`).
+
+7. **Entity Boosting & Merging**  
+   Extracted entities are mapped to logical keyword types (e.g., `DATE → "date"`, `GPE → "location"`).  
+   Each entity match receives a **base score (0.6)**, optionally boosted by user-defined `entity_weights` (capped at **2.0**).  
+   If an entity score exceeds the semantic match score for the same keyword, the entity match is prioritized.
+
+8. **Output Generation**  
+   The final output is a dictionary containing:
+   - `"entities"` → list of extracted entities (text, type, span)  
+   - `"semantic_matches"` → top-scoring matches for each keyword with their similarity scores
+
+---
+
+### Key Implementation Files
+
+| File | Responsibility |
+|------|----------------|
+| **extractor.py** | Orchestrates the full extraction pipeline, handles entity merging and  validation |
+| **chunker.py** | Extracts candidate phrases (noun chunks, lemmas) |
+| **embeddings.py** | Handles embedding creation and normalization |
+| **matcher.py** | Performs cosine similarity + IDF scoring |
+| **ner.py** | Performs NER and structured date parsing |
+| **utils.py** | Loads spaCy model and cleans text |
+
+---
+
+### Tunable Parameters
+
+| Parameter | Default | Purpose |
+|------------|----------|----------|
+| `min_score` | 0.3 | Minimum semantic score required to accept a match |
+| `base_entity_score` | 0.6 | Default confidence score for entity matches |
+| `entity_weights` | — | User-defined boosts for specific entity types (max 2.0) |
+| `baseline_text` | — | Used for embedding normalization |
+
+---
+
 ##  Installation
 
 Install from PyPI:
